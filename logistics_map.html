@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_a6c2754663c902a43af9dc7393c0640a {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_a6c2754663c902a43af9dc7393c0640a" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_a6c2754663c902a43af9dc7393c0640a = L.map(
+                "map_a6c2754663c902a43af9dc7393c0640a",
+                {
+                    center: [-25.4284, -49.2733],
+                    crs: L.CRS.EPSG3857,
+                    zoom: 6,
+                    zoomControl: true,
+                    preferCanvas: false,
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_f9392251be2dde8f22a2a7b58194e015 = L.tileLayer(
+                "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {"attribution": "Data by \u0026copy; \u003ca target=\"_blank\" href=\"http://openstreetmap.org\"\u003eOpenStreetMap\u003c/a\u003e, under \u003ca target=\"_blank\" href=\"http://www.openstreetmap.org/copyright\"\u003eODbL\u003c/a\u003e.", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
+            );
+        
+    
+                tile_layer_f9392251be2dde8f22a2a7b58194e015.addTo(map_a6c2754663c902a43af9dc7393c0640a);
+    
+            var marker_c7b2566c4332e431666646b8fa3afd06 = L.marker(
+                [-25.4284, -49.2733],
+                {}
+            ).addTo(map_a6c2754663c902a43af9dc7393c0640a);
+        
+    
+        var popup_cfcdbf46554479f7f34416d6f53567a1 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_7d59cbb3c6b2c0098d36a61941be72fc = $(`<div id="html_7d59cbb3c6b2c0098d36a61941be72fc" style="width: 100.0%; height: 100.0%;">Curitiba</div>`)[0];
+                popup_cfcdbf46554479f7f34416d6f53567a1.setContent(html_7d59cbb3c6b2c0098d36a61941be72fc);
+            
+        
+
+        marker_c7b2566c4332e431666646b8fa3afd06.bindPopup(popup_cfcdbf46554479f7f34416d6f53567a1)
+        ;
+
+        
+    
+    
+            var marker_8bd041348f6867290808fb1dc16e4820 = L.marker(
+                [-30.0346, -51.2177],
+                {}
+            ).addTo(map_a6c2754663c902a43af9dc7393c0640a);
+        
+    
+        var popup_174b71cb13dc6adbc9a44f5b6bf0eb0b = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_53a701aa777f9b7d0d4055a22e19a194 = $(`<div id="html_53a701aa777f9b7d0d4055a22e19a194" style="width: 100.0%; height: 100.0%;">Porto Alegre</div>`)[0];
+                popup_174b71cb13dc6adbc9a44f5b6bf0eb0b.setContent(html_53a701aa777f9b7d0d4055a22e19a194);
+            
+        
+
+        marker_8bd041348f6867290808fb1dc16e4820.bindPopup(popup_174b71cb13dc6adbc9a44f5b6bf0eb0b)
+        ;
+
+        
+    
+    
+            var marker_cedb0c57a4381cb6de43a066ed083c9d = L.marker(
+                [-31.7613, -52.3376],
+                {}
+            ).addTo(map_a6c2754663c902a43af9dc7393c0640a);
+        
+    
+        var popup_a43bdeb7d69c8a4963b41919fd7b9b7b = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_3c4a04002c4eeae2a14eca9198f91e4e = $(`<div id="html_3c4a04002c4eeae2a14eca9198f91e4e" style="width: 100.0%; height: 100.0%;">Pelotas</div>`)[0];
+                popup_a43bdeb7d69c8a4963b41919fd7b9b7b.setContent(html_3c4a04002c4eeae2a14eca9198f91e4e);
+            
+        
+
+        marker_cedb0c57a4381cb6de43a066ed083c9d.bindPopup(popup_a43bdeb7d69c8a4963b41919fd7b9b7b)
+        ;
+
+        
+    
+    
+            var poly_line_05201a103b5c0a0de97dfa38eaa5756d = L.polyline(
+                [[-25.4284, -49.2733], [-30.0346, -51.2177], [-31.7613, -52.3376]],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "blue", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_a6c2754663c902a43af9dc7393c0640a);
+        
+</script>
+</html>
