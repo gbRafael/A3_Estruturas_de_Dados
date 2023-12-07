@@ -3,52 +3,64 @@ import folium
 from geopy.distance import geodesic
 from datetime import datetime, timedelta
 import locale
-
+import csv
 
 class LogisticOptimizer:
     def __init__(self):
         self.graph = nx.Graph()
         self.locations = {}
 
-    def add_city(self, name, address, latitude, longitude):
-        self.locations[name] = (latitude, longitude)
-        self.graph.add_node(name, address=address, pos=(latitude, longitude))
+    def add_cidade(self, nome, endereco, latitude, longitude):
+        self.locations[nome] = (latitude, longitude)
+        self.graph.add_node(nome, endereco=endereco, posicao=(latitude, longitude))
 
-    def add_connection(self, city1, city2):
-        distance = self.calculate_distance(city1, city2)
-        self.graph.add_edge(city1, city2, distance=distance)
-        self.graph.add_edge(city2, city1, distance=distance)
+    def add_conecxoes(self, cidade1, cidade2):
+        distancia = self.calcular_distancia(cidade1, cidade2)
+        self.graph.add_edge(cidade1, cidade2, distancia=distancia)
+        self.graph.add_edge(cidade2, cidade1, distancia=distancia)
 
-    def calculate_distance(self, city1, city2):
-        pos1 = self.locations[city1]
-        pos2 = self.locations[city2]
-        return geodesic(pos1, pos2).km
+    def calcular_distancia(self, cidade1, cidade2):
+        posicao1 = self.locations[cidade1]
+        posicao2 = self.locations[cidade2]
+        return geodesic(posicao1, posicao2).km
 
-    def find_optimal_route(self, start_city, end_city):
-        path = nx.shortest_path(self.graph, start_city,
-                                end_city, weight='distance')
-        distance = nx.shortest_path_length(
-            self.graph, start_city, end_city, weight='distance')
-        cost = distance * 20  # Custo por quilômetro rodado
+    def rota_aprimorada(self, cidade_inicial, cidade_final):
+        path = nx.shortest_path(self.graph, cidade_inicial,
+                                cidade_final, weight='distancia')
+        distancia = nx.shortest_path_length(
+            self.graph, cidade_inicial, cidade_final, weight='distancia')
+        custo = distancia * 20  # Custo por quilômetro rodado
 
         # Estimativa de tempo considerando 500 km por dia
-        days_required = distance / 500
-        current_time = datetime.now()
-        arrival_time = current_time + timedelta(days=days_required)
+        dias = distancia / 500
+        hora = datetime.now()
+        tempo_chegada = hora + timedelta(days=dias)
 
-        return path, distance, cost, arrival_time
+        return path, distancia, custo, tempo_chegada
 
-    def display_map(self, path):
-        map_center = self.locations[path[0]]
-        m = folium.Map(location=map_center, zoom_start=6)
+    def display_mapa(self, path):
+        mapa = self.locations[path[0]]
+        m = folium.Map(location=mapa, zoom_start=6)
 
-        for city in path:
-            folium.Marker(location=self.locations[city], popup=city).add_to(m)
+        for cidade in path:
+            folium.Marker(location=self.locations[cidade], popup=cidade).add_to(m)
 
-        folium.PolyLine(locations=[self.locations[city]
-                        for city in path], color='blue').add_to(m)
+        folium.PolyLine(locations=[self.locations[cidade]
+                        for cidade in path], color='blue').add_to(m)
 
         return m
+    
+    def exportar_csv(self, path, distancia, custo, tempo_chegada):
+        with open('logistics_result.csv', 'w', newline='') as csvfile:
+            csv_writer = csv.writer(csvfile)
+            csv_writer.writerow(['cidade'])
+
+            for cidade in path:
+                csv_writer.writerow([cidade])
+
+            csv_writer.writerow([])  # Adicionar linha vazia
+            csv_writer.writerow(['Distância Total (km)', 'Custo', 'Tempo de Chegada'])
+            csv_writer.writerow([round(distancia, 2), round(custo, 2), tempo_chegada.strftime('%H:%M')])
 
 
 if __name__ == "__main__":
@@ -57,42 +69,45 @@ if __name__ == "__main__":
     locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
 
     # Cadastro das cidades
-    logistics.add_city("Curitiba", "Curitiba/PR", -25.4284, -49.2733)
-    logistics.add_city("Londrina", "Londrina/PR", -23.3105, -51.1628)
-    logistics.add_city("Foz do Iguaçu", "Foz do Iguaçu/PR", -25.5478, -54.5882)
-    logistics.add_city("União da Vitória",
+    logistics.add_cidade("Curitiba", "Curitiba/PR", -25.4284, -49.2733)
+    logistics.add_cidade("Londrina", "Londrina/PR", -23.3105, -51.1628)
+    logistics.add_cidade("Foz do Iguaçu", "Foz do Iguaçu/PR", -25.5478, -54.5882)
+    logistics.add_cidade("União da Vitória",
                        "União da Vitória/PR", -26.2273, -51.0870)
-    logistics.add_city("Joinville", "Joinville/SC", -26.3032, -48.8415)
-    logistics.add_city("Chapecó", "Chapecó/SC", -27.1009, -52.6157)
-    logistics.add_city("Porto Alegre", "Porto Alegre/RS", -30.0346, -51.2177)
-    logistics.add_city("Uruguaiana", "Uruguaiana/RS", -29.7617, -57.0856)
-    logistics.add_city("Pelotas", "Pelotas/RS", -31.7613, -52.3376)
+    logistics.add_cidade("Joinville", "Joinville/SC", -26.3032, -48.8415)
+    logistics.add_cidade("Chapecó", "Chapecó/SC", -27.1009, -52.6157)
+    logistics.add_cidade("Porto Alegre", "Porto Alegre/RS", -30.0346, -51.2177)
+    logistics.add_cidade("Uruguaiana", "Uruguaiana/RS", -29.7617, -57.0856)
+    logistics.add_cidade("Pelotas", "Pelotas/RS", -31.7613, -52.3376)
 
     # Adiciona conexões(foi necessário adicionar mais conexões para o codigo solucionar o desafio)
-    logistics.add_connection("Curitiba", "Porto Alegre")
-    logistics.add_connection("Porto Alegre", "Pelotas")
-    logistics.add_connection("Foz do Iguaçu", "União da Vitória")
-    logistics.add_connection("Joinville", "Chapecó")
+    logistics.add_conecxoes("Curitiba", "Porto Alegre")
+    logistics.add_conecxoes("Porto Alegre", "Pelotas")
+    logistics.add_conecxoes("Foz do Iguaçu", "União da Vitória")
+    logistics.add_conecxoes("Joinville", "Chapecó")
 
     # Solicitação de rota
-    start_city = "Curitiba"
-    end_city = "Pelotas"
+    cidade_inicial = "Curitiba"
+    cidade_final = "Pelotas"
 
     try:
-        result = logistics.find_optimal_route(start_city, end_city)
+        result = logistics.rota_aprimorada(cidade_inicial, cidade_final)
 
         # Exibe resultados
-        path, distance, cost, arrival_time = result
-        print(f"Menor caminho de {start_city} para {end_city}: {path}")
-        print(f"Distancia: {distance:.2f} km")
-        print(f"Custo estimado: {locale.format_string('%.2f', cost, grouping=True)}")
-        print(f"Estimativa de tempo: {arrival_time.strftime('%H:%M')} Hrs")
+        path, distancia, custo, tempo_chegada = result
+        print(f"Menor caminho de {cidade_inicial} para {cidade_final}: {path}")
+        print(f"Distancia: {distancia:.2f} km")
+        print(f"Custo estimado: {locale.format_string('%.2f', custo, grouping=True)}")
+        print(f"Estimativa de tempo: {tempo_chegada.strftime('%H:%M')} Hrs")
 
         # Exibe mapa
-        map_path = logistics.display_map(path)
+        map_path = logistics.display_mapa(path)
         map_path.save("logistics_map.html")
 
+        # Importa .CSV
+        logistics.exportar_csv(path, distancia, custo, tempo_chegada)
+
     except nx.NetworkXNoPath:
-        print(f"Não há caminho de {start_city} para {end_city} no grafo.")
+        print(f"Não há caminho de {cidade_inicial} para {cidade_final} no grafo.")
     except Exception as e:
         print(f"Erro não esperado: {e}")
